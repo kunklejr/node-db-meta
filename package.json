@@ -1,0 +1,33 @@
+{
+  "author": "Jeff Kunkle <jkunkle@nearinfinity.com>",
+  "name": "db-meta",
+  "keywords": [
+    "database",
+    "db",
+    "metadata",
+    "postgres"
+  ],
+  "description": "Relational database metadata extraction library",
+  "version": "0.1.0",
+  "license": "MIT",
+  "main": "./lib/db-meta.js",
+  "bugs": {
+    "url": "https://github.com/nearinfinity/node-db-meta/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nearinfinity/node-db-meta.git"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "chai": "~1.1.0",
+    "mocha": "~1.2.1"
+  },
+  "optionalDependencies": {},
+  "engines": {
+    "node": ">=0.6"
+  },
+  "scripts": {
+    "test": "mocha"
+  }
+}
