@@ -28,6 +28,6 @@
     "node": ">=0.6"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha test/*.js test/**/*.js"
   }
 }

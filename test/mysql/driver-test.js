@@ -1,11 +1,11 @@
 var expect = require('chai').expect;
-var pg = require('../../lib/pg/driver');
+var mysql = require('../../lib/mysql/driver');
 
 var driver = null;
 
-describe('pg driver', function() {
+describe('mysql driver', function() {
   before(function(done) {
-    pg.connect({ database: 'db_meta_test' }, onConnect);
+    mysql.connect({ database: 'db_meta_test' }, onConnect);
 
     function onConnect(err, dbDriver) {
       driver = dbDriver;
@@ -52,7 +52,7 @@ describe('pg driver', function() {
       expect(idColumn).not.to.be.null;
       expect(idColumn.meta).not.to.be.empty;
       expect(idColumn.isNullable()).to.be.false;
-      expect(idColumn.getDataType()).to.equal('INTEGER');
+      expect(idColumn.getDataType()).to.equal('INT');
       expect(idColumn.getMaxLength()).to.be.null;
 
       var nameColumn = getColumnByName(columns, 'name');
@@ -60,14 +60,14 @@ describe('pg driver', function() {
       expect(nameColumn.meta).not.to.be.empty;
       expect(nameColumn.isNullable()).to.be.false;
       expect(nameColumn.getMaxLength()).to.equal(255);
-      expect(nameColumn.getDataType()).to.equal('CHARACTER VARYING');
+      expect(nameColumn.getDataType()).to.equal('VARCHAR');
 
       var emailColumn = getColumnByName(columns, 'email');
       expect(emailColumn).not.to.be.null;
       expect(emailColumn.meta).not.to.be.empty;
       expect(emailColumn.isNullable()).to.be.true;
       expect(emailColumn.getMaxLength()).to.equal(100);
-      expect(emailColumn.getDataType()).to.equal('CHARACTER VARYING');
+      expect(emailColumn.getDataType()).to.equal('VARCHAR');
 
       done();
     }

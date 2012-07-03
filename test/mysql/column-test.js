@@ -1,5 +1,5 @@
 var expect = require('chai').expect;
-var Column = require('../../lib/pg/column');
+var Column = require('../../lib/mysql/column');
 var iface = require('../../lib/column').iface;
 
 describe('pg column', function () {
