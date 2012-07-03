@@ -1,20 +1,20 @@
 var expect = require('chai').expect;
-var mysql = require('../../lib/mysql/driver');
+var pg = require('../../lib/sqlite3/driver');
 
 var driver = null;
 
-describe('mysql driver', function() {
+describe('sqlite3 driver', function() {
   before(function(done) {
-    mysql.connect({ database: 'db_meta_test' }, onConnect);
+    pg.connect(':memory:', onConnect);
 
     function onConnect(err, dbDriver) {
       driver = dbDriver;
-      driver.client.query('CREATE TABLE person (id INTEGER PRIMARY KEY NOT NULL, name VARCHAR(255) NOT NULL, email VARCHAR(100), age INTEGER);', done);
+      driver.client.run('CREATE TABLE person (id INTEGER PRIMARY KEY NOT NULL, name VARCHAR(255) NOT NULL, email VARCHAR(100), age INTEGER);', done);
     }
   });
 
   after(function(done) {
-    driver.client.query('DROP TABLE person', driver.close.bind(driver, done));
+    driver.client.run('DROP TABLE person', driver.close.bind(driver, done));
   });
 
   it('should return the database version', function(done) {
@@ -52,22 +52,21 @@ describe('mysql driver', function() {
       expect(idColumn).not.to.be.null;
       expect(idColumn.meta).not.to.be.empty;
       expect(idColumn.isNullable()).to.be.false;
-      expect(idColumn.getDataType()).to.equal('INT');
-      expect(idColumn.getMaxLength()).to.be.null;
+      expect(idColumn.getDataType()).to.equal('INTEGER');
 
       var nameColumn = getColumnByName(columns, 'name');
       expect(nameColumn).not.to.be.null;
       expect(nameColumn.meta).not.to.be.empty;
       expect(nameColumn.isNullable()).to.be.false;
       expect(nameColumn.getMaxLength()).to.equal(255);
-      expect(nameColumn.getDataType()).to.equal('VARCHAR');
+      expect(nameColumn.getDataType()).to.equal('VARCHAR(255)');
 
       var emailColumn = getColumnByName(columns, 'email');
       expect(emailColumn).not.to.be.null;
       expect(emailColumn.meta).not.to.be.empty;
       expect(emailColumn.isNullable()).to.be.true;
       expect(emailColumn.getMaxLength()).to.equal(100);
-      expect(emailColumn.getDataType()).to.equal('VARCHAR');
+      expect(emailColumn.getDataType()).to.equal('VARCHAR(100)');
 
       done();
     }

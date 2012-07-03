@@ -9,7 +9,7 @@ describe('pg driver', function() {
 
     function onConnect(err, dbDriver) {
       driver = dbDriver;
-      driver.client.query('CREATE TABLE person (id INTEGER PRIMARY KEY, name VARCHAR(255) NOT NULL, email VARCHAR(100), age INTEGER);', done);
+      driver.client.query('CREATE TABLE person (id INTEGER PRIMARY KEY NOT NULL, name VARCHAR(255) NOT NULL, email VARCHAR(100), age INTEGER);', done);
     }
   });
 

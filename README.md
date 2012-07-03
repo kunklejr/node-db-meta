@@ -1,6 +1,12 @@
 # db-meta
 
-Relational database metadata extraction library, currently supporting only PostgreSQL.
+Relational database metadata extraction library
+
+The following databases are currently supported:
+
+ * SQLite3 - via: [node-sqlite3](https://github.com/developmentseed/node-sqlite3)
+ * MySQL - via: [node-mysql](https://github.com/felixge/node-mysql)
+ * PostgreSQL - via: [node-postgres](https://github.com/brianc/node-postgres)
 
 ## Installation
 
@@ -94,7 +100,7 @@ Returns the data type of the column. See `lib/data-type.js` for a list of valid 
 
 ### Column.getMaxLength()
 
-Returns the max length of the column, if constrained
+Returns the max length of the column, if constrained. Only valid for textual columns.
 
 
 ## License

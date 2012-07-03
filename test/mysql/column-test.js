@@ -16,7 +16,7 @@ describe('pg column', function () {
     expect(t.meta).not.to.be.null;
     expect(t.meta.column_name).to.equal('col');
     done();
-  })
+  });
 
   it('should implement the getName method', function (done) {
     var c = new Column({ column_name: 'col' });
