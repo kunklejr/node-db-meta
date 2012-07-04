@@ -54,6 +54,7 @@ describe('mysql driver', function() {
       expect(idColumn.isNullable()).to.be.false;
       expect(idColumn.getDataType()).to.equal('INT');
       expect(idColumn.getMaxLength()).to.be.null;
+      expect(idColumn.isPrimaryKey()).to.be.true;
 
       var nameColumn = getColumnByName(columns, 'name');
       expect(nameColumn).not.to.be.null;
@@ -61,6 +62,7 @@ describe('mysql driver', function() {
       expect(nameColumn.isNullable()).to.be.false;
       expect(nameColumn.getMaxLength()).to.equal(255);
       expect(nameColumn.getDataType()).to.equal('VARCHAR');
+      expect(nameColumn.isPrimaryKey()).to.be.false;
 
       var emailColumn = getColumnByName(columns, 'email');
       expect(emailColumn).not.to.be.null;
@@ -68,6 +70,7 @@ describe('mysql driver', function() {
       expect(emailColumn.isNullable()).to.be.true;
       expect(emailColumn.getMaxLength()).to.equal(100);
       expect(emailColumn.getDataType()).to.equal('VARCHAR');
+      expect(emailColumn.isPrimaryKey()).to.be.false;
 
       done();
     }

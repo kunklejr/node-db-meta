@@ -45,4 +45,12 @@ describe('pg column', function () {
     expect(c.getDataType()).to.equal('INTEGER');
     done();
   });
+
+  it('should implement the isPrimaryKey method', function(done) {
+    var c = new Column({ column_name: 'col', column_key: 'PRI' });
+    expect(c.isPrimaryKey()).to.be.true;
+    var c = new Column({ column_name: 'col', column_key: '' });
+    expect(c.isPrimaryKey()).to.be.false;
+    done();
+  });
 });

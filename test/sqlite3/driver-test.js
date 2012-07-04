@@ -53,6 +53,7 @@ describe('sqlite3 driver', function() {
       expect(idColumn.meta).not.to.be.empty;
       expect(idColumn.isNullable()).to.be.false;
       expect(idColumn.getDataType()).to.equal('INTEGER');
+      expect(idColumn.isPrimaryKey()).to.be.true;
 
       var nameColumn = getColumnByName(columns, 'name');
       expect(nameColumn).not.to.be.null;
@@ -60,6 +61,7 @@ describe('sqlite3 driver', function() {
       expect(nameColumn.isNullable()).to.be.false;
       expect(nameColumn.getMaxLength()).to.equal(255);
       expect(nameColumn.getDataType()).to.equal('VARCHAR(255)');
+      expect(nameColumn.isPrimaryKey()).to.be.false;
 
       var emailColumn = getColumnByName(columns, 'email');
       expect(emailColumn).not.to.be.null;
@@ -67,6 +69,7 @@ describe('sqlite3 driver', function() {
       expect(emailColumn.isNullable()).to.be.true;
       expect(emailColumn.getMaxLength()).to.equal(100);
       expect(emailColumn.getDataType()).to.equal('VARCHAR(100)');
+      expect(emailColumn.isPrimaryKey()).to.be.false;
 
       done();
     }
