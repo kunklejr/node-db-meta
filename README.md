@@ -8,9 +8,23 @@ The following databases are currently supported:
  * MySQL - via: [node-mysql](https://github.com/felixge/node-mysql)
  * PostgreSQL - via: [node-postgres](https://github.com/brianc/node-postgres)
 
+
 ## Installation
 
     $ npm install db-meta
+
+You'll also need to install the appropriate driver for the database you want to
+use db-meta with. None are installed by default.
+
+    # PostgreSQL
+    $ npm install pg
+
+    # MySQL
+    $ npm install mysql
+
+    # SQLite3
+    $ npm install sqlite3
+
 
 ## Example Usage
 
@@ -109,6 +123,14 @@ Returns true if the column is the primary key, false otherwise
 ### Column.getDefaultValue()
 
 Returns the default value for the column
+
+## Testing
+
+To run the tests you'll need a local installation of PostgreSQL, MySQL, and SQLite3 with default user
+accounts. You'll also need to create a schema named `db_meta_test` beforehand (excluding SQLite3) and
+install the npm dev dependencies. Finally, you can run all the tests with
+
+    $ npm test
 
 ## License
 
