@@ -9,7 +9,7 @@ describe('sqlite3 driver', function() {
 
     function onConnect(err, dbDriver) {
       driver = dbDriver;
-      driver.client.run('CREATE TABLE person (id INTEGER PRIMARY KEY NOT NULL, name VARCHAR(255) NOT NULL, email VARCHAR(100), age INTEGER);', done);
+      driver.client.run('CREATE TABLE person (id INTEGER PRIMARY KEY NOT NULL, name VARCHAR(255) NOT NULL, email VARCHAR(100), age INTEGER DEFAULT 30);', done);
     }
   });
 
@@ -70,6 +70,9 @@ describe('sqlite3 driver', function() {
       expect(emailColumn.getMaxLength()).to.equal(100);
       expect(emailColumn.getDataType()).to.equal('VARCHAR(100)');
       expect(emailColumn.isPrimaryKey()).to.be.false;
+
+      var ageColumn = getColumnByName(columns, 'age');
+      expect(ageColumn.getDefaultValue()).to.equal('30');
 
       done();
     }

@@ -53,4 +53,10 @@ describe('pg column', function () {
     expect(c.isPrimaryKey()).to.be.false;
     done();
   });
+
+  it('should implement the getDefaultValue method', function(done) {
+    var c = new Column({ column_name: 'col', column_default: '30' });
+    expect(c.getDefaultValue()).to.equal('30');
+    done();
+  });
 });

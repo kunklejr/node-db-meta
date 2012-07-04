@@ -106,6 +106,9 @@ Returns the max length of the column, if constrained. Only valid for textual col
 
 Returns true if the column is the primary key, false otherwise
 
+### Column.getDefaultValue()
+
+Returns the default value for the column
 
 ## License
 
