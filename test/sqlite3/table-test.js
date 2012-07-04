@@ -2,7 +2,7 @@ var expect = require('chai').expect;
 var Table = require('../../lib/sqlite3/table');
 var iface = require('../../lib/table').iface;
 
-describe('pg table', function () {
+describe('sqlite3 table', function () {
   it('should implement all the methods defined in the base table interface', function (done) {
     var t = new Table({ table_name: 'tbl' });
     iface.forEach(function (method) {
