@@ -102,6 +102,10 @@ Returns the data type of the column. See `lib/data-type.js` for a list of valid 
 
 Returns the max length of the column, if constrained. Only valid for textual columns.
 
+### Column.isPrimaryKey()
+
+Returns true if the column is the primary key, false otherwise
+
 
 ## License
 
