@@ -8,7 +8,7 @@
     "postgres"
   ],
   "description": "Relational database metadata extraction library",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "license": "MIT",
   "main": "./lib/db-meta.js",
   "bugs": {
