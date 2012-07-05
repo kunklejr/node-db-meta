@@ -1,16 +1,7 @@
 var expect = require('chai').expect;
-var Table = require('../../lib/pg/table');
-var iface = require('../../lib/table').iface;
+var Table = require('../lib/table');
 
-describe('pg table', function () {
-  it('should implement all the methods defined in the base table interface', function (done) {
-    var t = new Table({ table_name: 'tbl' });
-    iface.forEach(function (method) {
-      t[method].call(t);
-    });
-    done();
-  });
-
+describe('table', function () {
   it('should create an internal meta property for constructor argument', function (done) {
     var t = new Table({ id: 1, table_name: 'tbl' });
     expect(t.meta).not.to.be.null;
