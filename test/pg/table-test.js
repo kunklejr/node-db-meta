@@ -14,8 +14,6 @@ describe('pg table', function () {
   it('should create an internal meta property for constructor argument', function (done) {
     var t = new Table({ id: 1, table_name: 'tbl' });
     expect(t.meta).not.to.be.null;
-    expect(t.meta.id).to.equal(1);
-    expect(t.meta.table_name).to.equal('tbl');
     done();
   });
 

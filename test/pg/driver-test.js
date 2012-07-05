@@ -9,7 +9,11 @@ describe('pg driver', function() {
 
     function onConnect(err, dbDriver) {
       driver = dbDriver;
-      driver.client.query('CREATE TABLE person (id INTEGER PRIMARY KEY NOT NULL, name VARCHAR(255) NOT NULL, email VARCHAR(100), age INTEGER DEFAULT 30);', done);
+      driver.client.query('CREATE TABLE person (id INTEGER PRIMARY KEY NOT NULL, name VARCHAR(255) NOT NULL, email VARCHAR(100), age INTEGER DEFAULT 30);', createIndex);
+    }
+
+    function createIndex(err) {
+      driver.client.query('CREATE INDEX person_name_idx ON person (name, age)', done);
     }
   });
 
@@ -75,6 +79,21 @@ describe('pg driver', function() {
       var ageColumn = getColumnByName(columns, 'age');
       expect(ageColumn.getDefaultValue()).to.equal('30');
 
+      done();
+    }
+  });
+
+  it('should return all indexes in the database', function(done) {
+    driver.getIndexes('person', onResult);
+
+    function onResult(err, indexes) {
+      expect(indexes.length).to.equal(3);
+      expect(indexes[1].getName()).to.equal('person_name_idx');
+      expect(indexes[1].getTableName()).to.equal('person');
+      expect(indexes[1].getColumnName()).to.equal('name');
+      expect(indexes[2].getName()).to.equal('person_name_idx');
+      expect(indexes[2].getTableName()).to.equal('person');
+      expect(indexes[2].getColumnName()).to.equal('age');
       done();
     }
   });

@@ -14,7 +14,6 @@ describe('pg column', function () {
   it('should create an internal meta property for constructor argument', function (done) {
     var t = new Column({ name: 'col' });
     expect(t.meta).not.to.be.null;
-    expect(t.meta.name).to.equal('col');
     done();
   });
 
