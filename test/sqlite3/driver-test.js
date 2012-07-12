@@ -1,11 +1,11 @@
 var expect = require('chai').expect;
-var pg = require('../../lib/sqlite3/driver');
+var sqlite3 = require('../../lib/sqlite3/driver');
 
 var driver = null;
 
 describe('sqlite3 driver', function() {
   before(function(done) {
-    pg.connect(':memory:', onConnect);
+    sqlite3.connect(':memory:', onConnect);
 
     function onConnect(err, dbDriver) {
       driver = dbDriver;
