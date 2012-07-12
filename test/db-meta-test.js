@@ -12,6 +12,6 @@ describe('db-meta', function() {
   });
 
   it('should not return an error for a known driver', function(done) {
-    dbmeta('pg', { database: 'db-meta-test' }, done);
+    dbmeta('pg', { database: 'db_meta_test' }, done);
   });
 });
