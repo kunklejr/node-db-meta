@@ -9,7 +9,7 @@ describe('pg driver', function() {
 
     function onConnect(err, dbDriver) {
       driver = dbDriver;
-      driver.client.query('CREATE TABLE person (id INTEGER PRIMARY KEY NOT NULL, name VARCHAR(255) NOT NULL, email VARCHAR(100), age INTEGER DEFAULT 30);', createIndex);
+      driver.client.query('CREATE TABLE person (id INTEGER PRIMARY KEY NOT NULL, name VARCHAR(255) NOT NULL, email VARCHAR(100), age INTEGER DEFAULT 30,number SERIAL NOT NULL, CONSTRAINT person_email_key UNIQUE (email))', createIndex);
     }
 
     function createIndex(err) {
@@ -50,7 +50,7 @@ describe('pg driver', function() {
     function onResult(err, columns) {
       expect(err).to.be.null;
       expect(columns).not.to.be.empty;
-      expect(columns.length).to.equal(4);
+      expect(columns.length).to.equal(5);
 
       var idColumn = getColumnByName(columns, 'id');
       expect(idColumn).not.to.be.null;
@@ -59,6 +59,8 @@ describe('pg driver', function() {
       expect(idColumn.getDataType()).to.equal('INTEGER');
       expect(idColumn.getMaxLength()).to.be.null;
       expect(idColumn.isPrimaryKey()).to.be.true;
+      expect(idColumn.isUnique()).to.be.true;
+      expect(idColumn.isAutoIncrementing()).to.be.false;
 
       var nameColumn = getColumnByName(columns, 'name');
       expect(nameColumn).not.to.be.null;
@@ -67,6 +69,9 @@ describe('pg driver', function() {
       expect(nameColumn.getMaxLength()).to.equal(255);
       expect(nameColumn.getDataType()).to.equal('CHARACTER VARYING');
       expect(nameColumn.isPrimaryKey()).to.be.false;
+      expect(nameColumn.isUnique()).to.be.false;
+      expect(nameColumn.isAutoIncrementing()).to.be.false;
+
 
       var emailColumn = getColumnByName(columns, 'email');
       expect(emailColumn).not.to.be.null;
@@ -75,9 +80,21 @@ describe('pg driver', function() {
       expect(emailColumn.getMaxLength()).to.equal(100);
       expect(emailColumn.getDataType()).to.equal('CHARACTER VARYING');
       expect(emailColumn.isPrimaryKey()).to.be.false;
+      expect(emailColumn.isUnique()).to.be.true;
+      expect(emailColumn.isAutoIncrementing()).to.be.false;
+
 
       var ageColumn = getColumnByName(columns, 'age');
       expect(ageColumn.getDefaultValue()).to.equal('30');
+
+      var numberColumn = getColumnByName(columns, 'number');
+      expect(numberColumn).not.to.be.null;
+      expect(numberColumn.meta).not.to.be.empty;
+      expect(numberColumn.isNullable()).to.be.false;
+      expect(numberColumn.getDataType()).to.equal('INTEGER');
+      expect(numberColumn.isPrimaryKey()).to.be.false;
+      expect(numberColumn.isUnique()).to.be.false;
+      expect(numberColumn.isAutoIncrementing()).to.be.true;
 
       done();
     }
@@ -87,13 +104,16 @@ describe('pg driver', function() {
     driver.getIndexes('person', onResult);
 
     function onResult(err, indexes) {
-      expect(indexes.length).to.equal(3);
-      expect(indexes[1].getName()).to.equal('person_name_idx');
+      expect(indexes.length).to.equal(4);
+      expect(indexes[1].getName()).to.equal('person_email_key');
       expect(indexes[1].getTableName()).to.equal('person');
-      expect(indexes[1].getColumnName()).to.equal('name');
+      expect(indexes[1].getColumnName()).to.equal('email');
       expect(indexes[2].getName()).to.equal('person_name_idx');
       expect(indexes[2].getTableName()).to.equal('person');
-      expect(indexes[2].getColumnName()).to.equal('age');
+      expect(indexes[2].getColumnName()).to.equal('name');
+      expect(indexes[3].getName()).to.equal('person_name_idx');
+      expect(indexes[3].getTableName()).to.equal('person');
+      expect(indexes[3].getColumnName()).to.equal('age');
       done();
     }
   });

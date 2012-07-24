@@ -58,4 +58,22 @@ describe('pg column', function () {
     expect(c.getDefaultValue()).to.equal('30');
     done();
   });
+
+  it('should implement the isUnique method', function(done) {
+    var c = new Column({ column_name: 'col', column_key: 'UNI' });
+    expect(c.isUnique()).to.be.true;
+    var c = new Column({ column_name: 'col', column_key: 'PRI' });
+    expect(c.isUnique()).to.be.true;
+    var c = new Column({ column_name: 'col', column_key: '' });
+    expect(c.isUnique()).to.be.false;
+    done();
+  });
+
+  it('should implement the isAutoIncrementing method', function(done) {
+    var c = new Column({ column_name: 'col', extra: 'auto_increment' });
+    expect(c.isAutoIncrementing()).to.be.true;
+    var c = new Column({ column_name: 'col', extra: '' });
+    expect(c.isAutoIncrementing()).to.be.false;
+    done();
+  });
 });

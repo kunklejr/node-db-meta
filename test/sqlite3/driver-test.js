@@ -9,7 +9,7 @@ describe('sqlite3 driver', function() {
 
     function onConnect(err, dbDriver) {
       driver = dbDriver;
-      driver.client.run('CREATE TABLE person (id INTEGER PRIMARY KEY NOT NULL, name VARCHAR(255) NOT NULL, email VARCHAR(100), age INTEGER DEFAULT 30);', createIndex);
+      driver.client.run('CREATE TABLE person (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name VARCHAR(255) NOT NULL, email VARCHAR(100) UNIQUE, age INTEGER DEFAULT 30)', createIndex);
     }
 
     function createIndex(err) {
@@ -37,7 +37,7 @@ describe('sqlite3 driver', function() {
     function onResult(err, tables) {
       expect(err).to.be.null;
       expect(tables).not.to.be.empty;
-      expect(tables.length).to.equal(1);
+      expect(tables.length).to.equal(2);
       expect(tables[0].getName()).to.equal('person');
       expect(tables[0].meta).not.to.be.empty;
       done();
@@ -58,6 +58,8 @@ describe('sqlite3 driver', function() {
       expect(idColumn.isNullable()).to.be.false;
       expect(idColumn.getDataType()).to.equal('INTEGER');
       expect(idColumn.isPrimaryKey()).to.be.true;
+      expect(idColumn.isUnique()).to.be.true;
+      expect(idColumn.isAutoIncrementing()).to.be.true;
 
       var nameColumn = getColumnByName(columns, 'name');
       expect(nameColumn).not.to.be.null;
@@ -66,6 +68,8 @@ describe('sqlite3 driver', function() {
       expect(nameColumn.getMaxLength()).to.equal(255);
       expect(nameColumn.getDataType()).to.equal('VARCHAR(255)');
       expect(nameColumn.isPrimaryKey()).to.be.false;
+      expect(nameColumn.isUnique()).to.be.false;
+      expect(nameColumn.isAutoIncrementing()).to.be.false;
 
       var emailColumn = getColumnByName(columns, 'email');
       expect(emailColumn).not.to.be.null;
@@ -74,9 +78,13 @@ describe('sqlite3 driver', function() {
       expect(emailColumn.getMaxLength()).to.equal(100);
       expect(emailColumn.getDataType()).to.equal('VARCHAR(100)');
       expect(emailColumn.isPrimaryKey()).to.be.false;
+      expect(emailColumn.isUnique()).to.be.true;
+      expect(emailColumn.isAutoIncrementing()).to.be.false;
 
       var ageColumn = getColumnByName(columns, 'age');
       expect(ageColumn.getDefaultValue()).to.equal('30');
+      expect(ageColumn.isUnique()).to.be.false;
+      expect(ageColumn.isAutoIncrementing()).to.be.false;
 
       done();
     }
@@ -86,13 +94,16 @@ describe('sqlite3 driver', function() {
     driver.getIndexes('person', onResult);
 
     function onResult(err, indexes) {
-      expect(indexes.length).to.equal(2);
-      expect(indexes[0].getName()).to.equal('person_name_idx');
+      expect(indexes.length).to.equal(3);
+      expect(indexes[0].getName()).to.equal('sqlite_autoindex_person_1');
       expect(indexes[0].getTableName()).to.equal('person');
       expect(indexes[0].getColumnName()).to.equal('name');
-      expect(indexes[1].getName()).to.equal('person_name_idx');
+      expect(indexes[1].getName()).to.equal('sqlite_autoindex_person_1');
       expect(indexes[1].getTableName()).to.equal('person');
       expect(indexes[1].getColumnName()).to.equal('age');
+      expect(indexes[2].getName()).to.equal('sqlite_autoindex_person_1');
+      expect(indexes[2].getTableName()).to.equal('person');
+      expect(indexes[2].getColumnName()).to.equal('email');
       done();
     }
   });
