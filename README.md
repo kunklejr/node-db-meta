@@ -66,6 +66,7 @@ __Arguments__
 * options - an options object passed to the db-meta driver to use when connecting to the database
 * callback(err, driver) - callback that will be invoked after connecting to the database
 
+The user may pass a connection object in the options argument using the key connection. If this key is included in the options object, the driver will attempt to use the existing connection.
 
 ### driver.getVersion(callback)
 
