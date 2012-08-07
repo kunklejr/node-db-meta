@@ -5,7 +5,7 @@ var driver = null;
 
 describe('mysql driver', function() {
   before(function(done) {
-    mysql.connect({ database: 'db_meta_test' }, onConnect);
+    mysql.connect({ database: 'db_meta_test', user:'root' }, onConnect);
 
     function onConnect(err, dbDriver) {
       driver = dbDriver;
