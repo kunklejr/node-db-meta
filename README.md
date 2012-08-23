@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/nearinfinity/node-db-meta.png)](http://travis-ci.org/nearinfinity/node-db-meta)
 # db-meta
 
 Relational database metadata extraction library
