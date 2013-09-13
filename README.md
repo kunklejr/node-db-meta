@@ -137,7 +137,7 @@ install the npm dev dependencies. Finally, you can run all the tests with
 
 (The MIT License)
 
-Copyright (c) 2012 Near Infinity Corporation
+Copyright (c) 2013 Jeff Kunkle
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

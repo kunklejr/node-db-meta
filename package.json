@@ -1,5 +1,5 @@
 {
-  "author": "Jeff Kunkle <jkunkle@nearinfinity.com>",
+  "author": "Jeff Kunkle",
   "name": "db-meta",
   "keywords": [
     "database",
@@ -12,11 +12,11 @@
   "license": "MIT",
   "main": "./lib/db-meta.js",
   "bugs": {
-    "url": "https://github.com/nearinfinity/node-db-meta/issues"
+    "url": "https://github.com/kunklejr/node-db-meta/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nearinfinity/node-db-meta.git"
+    "url": "https://github.com/kunklejr/node-db-meta.git"
   },
   "dependencies": {},
   "devDependencies": {
