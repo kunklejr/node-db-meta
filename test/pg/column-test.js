@@ -53,6 +53,14 @@ describe('pg column', function () {
     done();
   });
 
+  it('should implement the isForeignKey method', function(done) {
+    var c = new Column({ column_name: 'col', foreign_key: true });
+    expect(c.isForeignKey()).to.be.true;
+    c = new Column({ column_name: 'col', foreign_key: false });
+    expect(c.isForeignKey()).to.be.false;
+    done();
+  });
+
   it('should implement the getDefaultValue method', function(done) {
     var c = new Column({ column_name: 'col', column_default: '30' });
     expect(c.getDefaultValue()).to.equal('30');

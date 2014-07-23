@@ -9,7 +9,7 @@ describe('pg driver', function() {
 
     function onConnect(err, dbDriver) {
       driver = dbDriver;
-      driver.client.query('CREATE TABLE person (id INTEGER PRIMARY KEY NOT NULL, name VARCHAR(255) NOT NULL, email VARCHAR(100), age INTEGER DEFAULT 30,number SERIAL NOT NULL, CONSTRAINT person_email_key UNIQUE (email))', createIndex);
+      driver.client.query('CREATE TABLE person (id INTEGER PRIMARY KEY NOT NULL, name VARCHAR(255) NOT NULL, email VARCHAR(100), age INTEGER DEFAULT 30,number SERIAL NOT NULL, ref INTEGER REFERENCES person(id), CONSTRAINT person_email_key UNIQUE (email))', createIndex);
     }
 
     function createIndex(err) {
@@ -50,7 +50,7 @@ describe('pg driver', function() {
     function onResult(err, columns) {
       expect(err).to.be.null;
       expect(columns).not.to.be.empty;
-      expect(columns.length).to.equal(5);
+      expect(columns.length).to.equal(6);
 
       var idColumn = getColumnByName(columns, 'id');
       expect(idColumn).not.to.be.null;
@@ -59,6 +59,7 @@ describe('pg driver', function() {
       expect(idColumn.getDataType()).to.equal('INTEGER');
       expect(idColumn.getMaxLength()).to.be.null;
       expect(idColumn.isPrimaryKey()).to.be.true;
+      expect(idColumn.isForeignKey()).to.be.false;
       expect(idColumn.isUnique()).to.be.true;
       expect(idColumn.isAutoIncrementing()).to.be.false;
 
@@ -96,6 +97,15 @@ describe('pg driver', function() {
       expect(numberColumn.isUnique()).to.be.false;
       expect(numberColumn.isAutoIncrementing()).to.be.true;
 
+      var refColumn = getColumnByName(columns, 'ref');
+      expect(refColumn).to.be.not.null;
+      expect(refColumn.meta).not.to.be.empty;
+      expect(refColumn.isForeignKey()).to.be.true;
+      expect(refColumn.isPrimaryKey()).to.be.false;
+      expect(refColumn.getDataType()).to.equal('INTEGER');
+      expect(refColumn.getMaxLength()).to.be.null;
+      expect(refColumn.isAutoIncrementing()).to.be.false;
+
       done();
     }
   });
@@ -110,10 +120,10 @@ describe('pg driver', function() {
       expect(indexes[1].getColumnName()).to.equal('email');
       expect(indexes[2].getName()).to.equal('person_name_idx');
       expect(indexes[2].getTableName()).to.equal('person');
-      expect(indexes[2].getColumnName()).to.equal('name');
+      expect(indexes[2].getColumnName()).to.equal('age');
       expect(indexes[3].getName()).to.equal('person_name_idx');
       expect(indexes[3].getTableName()).to.equal('person');
-      expect(indexes[3].getColumnName()).to.equal('age');
+      expect(indexes[3].getColumnName()).to.equal('name');
       done();
     }
   });

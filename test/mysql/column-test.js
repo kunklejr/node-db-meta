@@ -2,7 +2,7 @@ var expect = require('chai').expect;
 var Column = require('../../lib/mysql/column');
 var iface = require('../../lib/column').iface;
 
-describe('pg column', function () {
+describe('mysql column', function () {
   it('should implement all the methods defined in the base column interface', function (done) {
     var c = new Column({ column_name: 'col', data_type: 'integer' });
     iface.forEach(function (method) {
@@ -50,6 +50,14 @@ describe('pg column', function () {
     expect(c.isPrimaryKey()).to.be.true;
     var c = new Column({ column_name: 'col', column_key: '' });
     expect(c.isPrimaryKey()).to.be.false;
+    done();
+  });
+  
+  it('should implement the isForeignKey method', function(done) {
+    var c = new Column({ column_name: 'col', foreign_key: true });
+    expect(c.isForeignKey()).to.be.true;
+    var c = new Column({ column_name: 'col', foreign_key: false });
+    expect(c.isForeignKey()).to.be.false;
     done();
   });
 

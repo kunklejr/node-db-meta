@@ -9,7 +9,7 @@ describe('sqlite3 driver', function() {
 
     function onConnect(err, dbDriver) {
       driver = dbDriver;
-      driver.client.run('CREATE TABLE person (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name VARCHAR(255) NOT NULL, email VARCHAR(100) UNIQUE, age INTEGER DEFAULT 30)', createIndex);
+      driver.client.run('CREATE TABLE person (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name VARCHAR(255) NOT NULL, email VARCHAR(100) UNIQUE, age INTEGER DEFAULT 30, ref INTEGER, FOREIGN KEY (ref) REFERENCES person(id))', createIndex);
     }
 
     function createIndex(err) {
@@ -50,7 +50,7 @@ describe('sqlite3 driver', function() {
     function onResult(err, columns) {
       expect(err).to.be.null;
       expect(columns).not.to.be.empty;
-      expect(columns.length).to.equal(4);
+      expect(columns.length).to.equal(5);
 
       var idColumn = getColumnByName(columns, 'id');
       expect(idColumn).not.to.be.null;
@@ -58,6 +58,7 @@ describe('sqlite3 driver', function() {
       expect(idColumn.isNullable()).to.be.false;
       expect(idColumn.getDataType()).to.equal('INTEGER');
       expect(idColumn.isPrimaryKey()).to.be.true;
+      expect(idColumn.isForeignKey(), 'FK').to.be.false;
       expect(idColumn.isUnique()).to.be.true;
       expect(idColumn.isAutoIncrementing()).to.be.true;
 
@@ -85,6 +86,15 @@ describe('sqlite3 driver', function() {
       expect(ageColumn.getDefaultValue()).to.equal('30');
       expect(ageColumn.isUnique()).to.be.false;
       expect(ageColumn.isAutoIncrementing()).to.be.false;
+
+      var refColumn = getColumnByName(columns, 'ref');
+      expect(refColumn).to.be.not.null;
+      expect(refColumn.meta).not.to.be.empty;
+      expect(refColumn.isForeignKey(), 'FK').to.be.true;
+      expect(refColumn.isPrimaryKey()).to.be.false;
+      expect(refColumn.getDataType()).to.equal('INTEGER');
+      expect(refColumn.getMaxLength()).to.be.null;
+      expect(refColumn.isAutoIncrementing()).to.be.false;
 
       done();
     }
