@@ -23,7 +23,7 @@
     "chai": "~1.1.0",
     "mocha": "~1.2.1",
     "mysql": "~0.9.6",
-    "pg": "~0.7.2",
+    "pg": "^7.4.3",
     "sqlite3": "^4.0.1"
   },
   "optionalDependencies": {},
