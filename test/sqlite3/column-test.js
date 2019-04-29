@@ -2,7 +2,7 @@ var expect = require('chai').expect;
 var Column = require('../../lib/sqlite3/column');
 var iface = require('../../lib/column').iface;
 
-describe('pg column', function () {
+describe('sqlite3 column', function () {
   it('should implement all the methods defined in the base column interface', function (done) {
     var c = new Column({ name: 'col', type: 'varchar(255)' });
     iface.forEach(function (method) {
@@ -50,6 +50,14 @@ describe('pg column', function () {
     expect(c.isPrimaryKey()).to.be.true;
     var c = new Column({ column_name: 'col', pk: 0 });
     expect(c.isPrimaryKey()).to.be.false;
+    done();
+  });
+
+  it('should implement the isForeignKey method', function(done) {
+    var c = new Column({ column_name: 'col', fk: 1 });
+    expect(c.isForeignKey()).to.be.true;
+    var c = new Column({ column_name: 'col', fk: 0 });
+    expect(c.isForeignKey()).to.be.false;
     done();
   });
 
